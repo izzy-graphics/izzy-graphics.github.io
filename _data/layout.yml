@@ -4,9 +4,9 @@ animation: "bounceOut"
 
 # Colors
 
-accent: "#c99065"
+accent: "#830CD6"
 
 textColor: "#666"
-headlineColor: "#333"
+headlineColor: "#444"
 bgcolor: "#e5eaee"
 documentBackgroundColor: "#fff"
