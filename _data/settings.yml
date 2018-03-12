@@ -46,7 +46,7 @@ contact: >
   Hit me up
 
 #-------------------------------
-# Work Section
+# Where all of the art links go
 
 projects:
 - {name: 'Prints for Progress', folder: 'pfp', file: 'projects/pfp.html'}
