@@ -42,7 +42,7 @@ projects:
 - {name: 'Prints for Progress', folder: 'pfp', file: 'projects/pfp.html'}
 - {name: 'The Return of Mr. Koi', folder: 'koi', file: 'projects/koi.html'}
 - {name: 'Glass Charcoal Drawing', folder: 'glass', file: 'projects/glass.html'}
-- {name: 'Digital Watercolor landscape', folder: 'digital', file:'projects/digital.html'}
+- {name: 'Digital Watercolor Landscape', folder: 'digital', file:'projects/digital.html'}
 #-------------------------------
 # Contact Section
 
