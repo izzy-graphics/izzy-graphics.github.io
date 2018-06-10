@@ -2,7 +2,7 @@
 layout: post
 title: 'Prints for Progress'
 ---
-What better way to support charity than to buy snazzy t-shirts! Prints for Progress is an upcoming project that screen prints fabulous designs onto shirts that are sold for charity! Pretty nifty I would say.
+What better way to support charity than to buy snazzy t-shirts! Prints for Progress is an upcoming project that screen prints fabulous designs onto shirts that are sold for charity!
 
 [Check out the Instagram](https://www.instagram.com/printsforprogress/)
 
