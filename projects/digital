@@ -1,0 +1,8 @@
+--
+layout: post
+title: '[Digital Watercolor Landscape}'
+--
+A digital painting of the Blue Ridge Mountains at sun set
+{% include image.html
+url="http://izzy.graphics/assets/img/projects/digital/thumb.jpg"
+image="projects/digital/thumbp.jpg"%}
