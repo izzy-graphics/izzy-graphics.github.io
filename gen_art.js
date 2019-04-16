@@ -8,7 +8,7 @@ if (query == "") {
 		
 		var thumbunit = document.createElement("div");
 		thumbunit.className = "thumb-unit";
-		thumbunit.style = "background-image: url(images/" + art[i][3] + ")";
+		thumbunit.style = "background-image: url(" + art[i][3] + ")";
 		
 		var thumboverlay = document.createElement("div");
 		thumboverlay.className = "thumb-overlay";
@@ -21,10 +21,23 @@ if (query == "") {
 		work.appendChild(thumbunit);
 		document.getElementById("artworks").appendChild(work);
 	}
-} else if (query == "contact") {
-	console.log("display contact page");
 } else if (query == "about") {
-	console.log("display about page");
+		var title = document.createElement("h1");
+		title.appendChild(document.createTextNode("About"));
+		document.getElementById("artworks").appendChild(title);
+		
+		var body = document.createElement("div");
+		body.innerHTML = a + "<br>";
+		document.getElementById("artworks").appendChild(body);
+		
+} else if (query == "contact") {
+		var title = document.createElement("h1");
+		title.appendChild(document.createTextNode("Contact"));
+		document.getElementById("artworks").appendChild(title);
+		
+		var body = document.createElement("div");
+		body.innerHTML = c + "<br>";
+		document.getElementById("artworks").appendChild(body);
 } else {
 	var ids = [];
 	for (i = 0; i < art.length; i++) {
@@ -40,7 +53,7 @@ if (query == "") {
 		document.getElementById("artworks").appendChild(body);
 		
 		var img = document.createElement("img")
-		img.src = "images/" + art[ids.indexOf(query)][3];
+		img.src = art[ids.indexOf(query)][3];
 		document.getElementById("artworks").appendChild(img);
 	} else {
 		window.location.href = "?";
