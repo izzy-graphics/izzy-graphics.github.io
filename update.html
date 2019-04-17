@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio editor</title>
+  <link rel="stylesheet" href="lib/all.css">
+	<link href="lib/quillsnow.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div id="site-container">
+
+	<header>
+		<div class="logo">
+			<a href="?">Portfolio Editor</a>
+		</div>
+	</header>
+
+	
+  <div class="thumb-container" id="artworks">
+		<h2>Entries:</h2>
+		<ul id="pieces" class="list-group col"></ul>
+		<p>Click and drag to reorder</p>
+		<button class="button" onclick="displayModal('')">Add art</button>
+	
+		<h3>About Page</h3>
+		<div id="a_editor"></div>
+		
+		<h3>Contact Page</h3>
+		<div id="c_editor"></div>
+		<br>
+		
+		<button id="initsubmit" class="button" onClick="initsubmit()">Add data to website</button>
+		<br>
+		<div style="display: none" id='tokenpart'>
+		<h4 style="display: inline-block">Access token</h4>
+		<input id="tokenIP" style="width: 25em"></input>
+		<br>
+		<p>Add your access token above for security</p>
+		<button class="button" onClick="submit()">Update website</button>
+		</div>
+	
+
+		<div id="myModal" class="modal">
+			<div class="modal-content">
+				<div class="modal-body">
+				<h5 style="display: inline-block">Title</h5>
+				<input id="titleIP"></input>
+				<br>
+				<h5 style="display: inline-block">Code</h5>
+				<input id="codeIP"></input>
+				<p><i>(unique identifier for each art piece)</i></p>
+				<h5 style="display: inline-block">Image</h5>
+				<form id="imgform">
+				<input type="file" onchange="previewFile()">
+				</form>
+				<br>
+				<img src="" height="100" alt="Image preview..." id="img-prev">
+				<br>
+				<h5 style="display: inline-block">Description</h5>
+				<div id="editor"></div>
+
+				<button class="button" id="savebutton">Save</button>
+				<button class="button" id="cancelbutton" onclick="closeModal()">Cancel</button>
+				</div>
+			</div>
+		</div>
+		
+  </div>
+
+</div>
+
+	<div id="complete" style='display:none; margin: 50px'>
+	<p>The site should be updating now. Changes should take effect within the next 15 minutes or so.</p>
+	<p>To check if it worked, head to the <a href="https://github.com/izzy-graphics/izzy-graphics.github.io/commits/master">commit history</a> for the site and see if the most recent one is from a few seconds ago.</p>
+	<p>Sometimes your browser will save previous versions of your site and won't show the new one unless you wait for a while. If it seems like this is happening, visit the site as an anonymous user (e.g. incognito/private browsing) and see if it updated. The same goes for this updating tool... it can take a few minutes to update after you submit.</p>
+	<p>If you make a change and want to make another immediately after, wait a few minutes before submitting it. If Github got the changes you made and is in the process of updating the site, it'll ignore requests that you submit during that time.</p>
+	<p>I made this page part of izzy.graphics so I'd be able to update it later. I'm sure the site isn't perfectly bug-free, and the UI could be a little better, so I may update this tool in the future. If there are any issues with the site or features that you want, obviously you can let me know and I'll see what I can do.</p>
+	</div>
+	
+</body>
+<script src="lib/sortable.js"></script>
+<script src="lib/quill.js"></script>
+<script src="art.js"></script>
+<script src="lib/axios.js"></script>
+
+<script>
+
+var container = document.getElementById('editor');
+var editor = new Quill(container);
+
+var a_container = document.getElementById('a_editor');
+var a_editor = new Quill(a_container);
+
+var c_container = document.getElementById('c_editor');
+var c_editor = new Quill(c_container);
+
+var ids = [];
+
+function addToList (ind) {
+	console.log(ind)
+	var work = document.createElement("li");
+	work.innerHTML = "<button class='button' onclick='displayModal(\"" + art[ind][0] + "\")'>edit</button>  ";
+	work.innerHTML += "<button class='button delbutton' onclick='delEntry(\"" + art[ind][0] + "\")'>delete</button>  " + art[ind][1];
+	document.getElementById("pieces").appendChild(work);
+	ids.push(art[ind][0]);
+}
+
+for (i = 0; i < art.length; i++) {
+	addToList(i)
+}
+
+new Sortable(pieces, {
+    animation: 300,
+    ghostClass: 'blue-background-class'
+});
+
+function previewFile(){
+       var preview = document.getElementById('img-prev'); //selects the query named img
+       var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+       var reader  = new FileReader();
+
+       reader.onloadend = function () {
+           preview.src = reader.result;
+       }
+
+       if (file) {
+           reader.readAsDataURL(file); //reads the data as a URL
+       } else {
+           preview.src = "";
+       }
+  }
+
+  previewFile();  //calls the function named previewFile()
+
+document.getElementById("a_editor").innerHTML = a
+document.getElementById("c_editor").innerHTML = c
+
+var modal = document.getElementById('myModal');
+
+function displayModal(key) {
+	document.getElementById("imgform").reset()
+	if (key == '') {
+		quill.root.innerHTML = ""
+		document.getElementById("titleIP").value = ""
+		document.getElementById("codeIP").value = ""
+		document.getElementById("img-prev").src = ""
+		document.getElementById("savebutton").onclick = function () { addData(document.getElementById("codeIP").value,document.getElementById("titleIP").value,quill.root.innerHTML,document.getElementById("img-prev").src); };
+	} else {
+		quill.root.innerHTML = art[ids.indexOf(key)][2];
+		document.getElementById("titleIP").value = art[ids.indexOf(key)][1];
+		document.getElementById("codeIP").value = art[ids.indexOf(key)][0];
+		document.getElementById("img-prev").src = art[ids.indexOf(key)][3];
+		document.getElementById("savebutton").onclick = function () { saveData(ids.indexOf(key),document.getElementById("codeIP").value,document.getElementById("titleIP").value,quill.root.innerHTML,document.getElementById("img-prev").src); };
+
+	}
+	modal.style.display = "block";
+}
+
+function delEntry (code) {
+	if (confirm("Are you sure you want to delete " + art[ids.indexOf(code)][1] + "?") == true) {
+	Array.from(document.getElementsByTagName("li")).forEach(function(item,index){
+		if (item.children[0].onclick.toString().slice(40,-4) == code) {
+			document.getElementById("pieces").removeChild(document.getElementsByTagName("li")[index]);
+		}
+	});
+	art.splice(ids.indexOf(code),1)
+	ids.splice(ids.indexOf(code),1)
+	}
+}
+
+function saveData(ind,code,title,content,image) {
+	if (code == "" || title == "" || content == "" || image.length < 200) {
+		alert("Looks like you haven't finished filling out the card.")
+	} else if (!(ids.indexOf(code) == -1) && !(ids.indexOf(code) == ind)) {
+		alert("There's already a different entry with this code. Try using a different one.")
+	} else {
+		modal.style.display = "none";
+		art[ind][0] = code
+		art[ind][1] = title
+		art[ind][2] = content
+		art[ind][3] = image
+	}
+}
+
+function addData(code,title,content,image) {
+	if (code == "" || title == "" || content.length < 12 || image.length < 100) {
+		alert("Looks like you haven't finished filling out the card.")
+	} else if (!(ids.indexOf(code) == -1)) {
+		alert("There's already a different entry with this code. Try using a different one.")
+	} else {
+		modal.style.display = "none";
+		ids.push(code)
+		art.push([code,title,content,image])
+		
+	addToList(art.length - 1)
+	}
+}
+
+function closeModal() {
+	modal.style.display = "none";
+}
+
+function initsubmit () {
+	document.getElementById("tokenpart").style.display = "block";
+	document.getElementById("initsubmit").style.display = "none";
+}
+
+function submit() {
+
+	var gh_token = document.getElementById("tokenIP").value;
+
+	var lis = Array.from(document.getElementsByTagName("li"));
+	
+	listeds = []
+	
+	lis.forEach(function(item){
+		listeds.push(item.children[0].onclick.toString().slice(40,-4))
+	});
+	
+	endart = Array.from({length: listeds.length}, () => []);
+	
+	ids.forEach(function(item){
+		endart[listeds.indexOf(item)] = art[ids.indexOf(item)]
+	});
+	
+	var artjs = btoa("var art = " + JSON.stringify(endart).replace('"','\"') + "; var a = '" + a_quill.root.innerHTML.replace("'","\\'") + "'; var c = '" + c_quill.root.innerHTML.replace("'","\\'") + "';");
+	
+	url = "https://api.github.com/repos/izzy-graphics/izzy-graphics.github.io/git/trees/master"
+	
+	var today = new Date();
+	var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	var dateTime = date+' '+time;
+
+	axios.get(url).then(response => {
+		resp = response.data["tree"][2]["sha"]
+		
+		axios({
+		method: 'put',
+		url: "https://api.github.com/repos/izzy-graphics/izzy-graphics.github.io/contents/art.js",
+		headers: {
+		 "Content-Type" : "application/vnd.github.v3+json",
+		 "Authorization" : "token " + gh_token
+		},
+		data: {
+			"message": "autocommit " + dateTime + " (via izzy.graphics input UI)",
+			"committer": {
+				"name": "izzy.graphics updater bot",
+				"email": "example@example.com"
+			},
+			"content": artjs,
+			"sha": resp
+		}
+})
+
+});
+	
+	document.getElementById("artworks").style.display = "none";
+	document.getElementById("complete").style.display = "block";
+	
+}
+
+var toolbarOptions = [
+	[{ 'size': ['small', false, 'large', 'huge'] }],
+  ['bold', 'italic', 'underline'],
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	['link','blockquote'],
+  ['clean']
+];
+
+
+
+var quill = new Quill('#editor', {
+  modules: {
+    toolbar: toolbarOptions
+  },
+  theme: 'snow'
+});
+
+var a_quill = new Quill('#a_editor', {
+  modules: {
+    toolbar: toolbarOptions
+  },
+  theme: 'snow'
+});
+
+var c_quill = new Quill('#c_editor', {
+  modules: {
+    toolbar: toolbarOptions
+  },
+  theme: 'snow'
+});
+</script>
+
+</html>
