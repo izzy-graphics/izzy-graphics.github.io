@@ -101,7 +101,6 @@ var c_editor = new Quill(c_container);
 var ids = [];
 
 function addToList (ind) {
-	console.log(ind)
 	var work = document.createElement("li");
 	work.innerHTML = "<button class='button' onclick='displayModal(\"" + art[ind][0] + "\")'>edit</button>  ";
 	work.innerHTML += "<button class='button delbutton' onclick='delEntry(\"" + art[ind][0] + "\")'>delete</button>  " + art[ind][1];
